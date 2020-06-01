@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pl.dbabinski.jdbc.jpa;
+package pl.dbabinski.jdbc.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author XC
+ * @author damian
  */
 @Entity
 @Table(name = "users")
@@ -142,7 +142,7 @@ public class Users implements Serializable {
 
     @Override
     public String toString() {
-        return "pl.softmedica.jdbc.jpa.Users[ id=" + id + " ]";
+        return "pl.dbabinski.jdbc.entity.Users[ id=" + id + " ]";
     }
     
 }

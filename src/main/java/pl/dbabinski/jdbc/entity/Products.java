@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pl.dbabinski.jdbc.jpa;
+package pl.dbabinski.jdbc.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author XC
+ * @author damian
  */
 @Entity
 @Table(name = "products")
@@ -61,16 +61,6 @@ public class Products implements Serializable {
 
     public Products(Integer id) {
         this.id = id;
-    }
-    
-    public Products(Integer id, ProductCategory idProductCategory, String productName, String productAutorName, String productAutorLastname, String productCountryName, Integer productCost){
-        this.id = id;
-        this.idProductCategory = idProductCategory;
-        this.productName = productName;
-        this.productAutorName = productAutorName;
-        this.productAutorLastname = productAutorLastname;
-        this.productCountryName = productCountryName;
-        this.productCost = productCost;
     }
 
     public Integer getId() {
@@ -151,7 +141,7 @@ public class Products implements Serializable {
 
     @Override
     public String toString() {
-        return "pl.softmedica.jdbc.jpa.Products[ id=" + id + " ]";
+        return "pl.dbabinski.jdbc.entity.Products[ id=" + id + " ]";
     }
     
 }

@@ -31,7 +31,7 @@ public class LoginForm extends javax.swing.JFrame {
         
             try {   
             
-                if ((!"postgres".equals(user)) || (!"zaq1@WSX".equals(pass))){
+                if ((!"dbabinski".equals(user)) || (!"zaq1@WSX".equals(pass))){
                     System.out.println("Wrong pass");
                 }else{
                     connectionJDBC.ConnectionPostgres(user, pass, url);

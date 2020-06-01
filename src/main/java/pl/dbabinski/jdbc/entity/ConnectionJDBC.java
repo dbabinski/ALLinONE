@@ -20,7 +20,7 @@ public class ConnectionJDBC {
     private Connection c = null;
     private String user;
     private String pass;
-    public String url = "jdbc:postgresql://localhost:5432/bazaDB";
+    public String url = "jdbc:postgresql://localhost:5453/bazaDB";
     
     public ConnectionJDBC(String user, String pass) {
         this.user = user;
