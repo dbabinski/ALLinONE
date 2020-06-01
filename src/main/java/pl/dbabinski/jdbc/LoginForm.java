@@ -5,6 +5,7 @@
  */
 package pl.dbabinski.jdbc;
 
+import pl.dbabinski.jdbc.entity.ConnectionJDBC;
 import pl.dbabinski.jdbc.entity.*;
 
 /**
