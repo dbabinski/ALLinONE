@@ -10,11 +10,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+
 /**
  *
  * @author damian
  */
-public class ProductsJPA {
+public class ProductsJPA{
     private static ProductsJPA instance;
     public static ProductsJPA getInstance(){
         if (instance == null){
@@ -23,10 +24,10 @@ public class ProductsJPA {
                 
         return instance;
     };
+        
+    public EntityManager entityManager;
     
-    protected EntityManager entityManager;
-    
-    private EntityManager getEntityManager() {
+    public EntityManager getEntityManager() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pl.dbabinski.persistance-office");
         if(entityManager == null) {
             entityManager = factory.createEntityManager();

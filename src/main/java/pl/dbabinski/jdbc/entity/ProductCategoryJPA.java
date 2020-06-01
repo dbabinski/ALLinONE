@@ -25,9 +25,9 @@ public class ProductCategoryJPA {
         return instance;
     };
     
-    protected EntityManager entityManager;
+    public EntityManager entityManager;
     
-    private EntityManager getEntityManager() {
+    public EntityManager getEntityManager() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("pl.dbabinski.persistance-office");
         if(entityManager == null) {
             entityManager = factory.createEntityManager();
