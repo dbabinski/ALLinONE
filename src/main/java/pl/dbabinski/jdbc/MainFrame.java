@@ -5,26 +5,68 @@
  */
 package pl.dbabinski.jdbc;
 
-
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import pl.dbabinski.jdbc.entity.ConnectionJDBC;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import java.util.Vector;
+
 import pl.dbabinski.jdbc.entity.*;
+
 /**
  *
  * @author XC
  */
 public class MainFrame extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form Frame
      */
     public MainFrame() {
         initComponents();
-         
+
+        TableModelProductCategory tmProductCategory = new TableModelProductCategory();
+
+        try {
+
+            tmProductCategory.getEntityManager();
+            tmProductCategory.entityManager.getTransaction().begin();
+
+            List<ProductCategory> list = tmProductCategory.findAll();
+            jTable3.setModel(TableModelProductCategory.getDefaultTableModel(list));
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } finally {
+
+            tmProductCategory.entityManager.close();
+
+        }
+        
+        TableModelProducts tmProducts= new TableModelProducts();
+
+        try {
+
+            tmProducts.getEntityManager();
+            tmProducts.entityManager.getTransaction().begin();
+
+            List<Products> list = tmProducts.findAll();
+            jTable4.setModel(TableModelProducts.getDefaultTableModel(list));
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } finally {
+
+            tmProducts.entityManager.close();
+
+        }
+
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,7 +77,12 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        buttonWczytajTabele = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         MenuClose = new javax.swing.JMenuItem();
@@ -44,11 +91,48 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jScrollPane2.setViewportView(jTable1);
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable3);
 
-        jMenu1.setText("File");
+        jTabbedPane1.addTab("tab1", jScrollPane3);
 
-        MenuClose.setText("Close");
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable4);
+
+        jTabbedPane1.addTab("tab2", jScrollPane4);
+
+        jScrollPane2.setViewportView(jTabbedPane1);
+
+        buttonWczytajTabele.setText("Wczytaj tabele");
+        buttonWczytajTabele.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonWczytajTabeleActionPerformed(evt);
+            }
+        });
+
+        jMenu1.setText("Plik");
+
+        MenuClose.setText("Zamknij");
         MenuClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuCloseActionPerformed(evt);
@@ -58,10 +142,10 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Edytuj");
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("Others");
+        jMenu3.setText("Inne");
         jMenu3.setToolTipText("");
         jMenuBar1.add(jMenu3);
 
@@ -72,22 +156,26 @@ public class MainFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(437, 437, 437)
+                .addGap(225, 225, 225)
+                .addComponent(buttonWczytajTabele)
+                .addGap(100, 100, 100)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(59, 59, 59)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buttonWczytajTabele)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void MenuCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCloseActionPerformed
         try {
             System.exit(0);
@@ -97,7 +185,11 @@ public class MainFrame extends javax.swing.JFrame {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_MenuCloseActionPerformed
- 
+
+    private void buttonWczytajTabeleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonWczytajTabeleActionPerformed
+
+    }//GEN-LAST:event_buttonWczytajTabeleActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -132,24 +224,25 @@ public class MainFrame extends javax.swing.JFrame {
                 new MainFrame().setVisible(true);
                 LoginForm loginForm = new LoginForm();
                 loginForm.setVisible(false);
-                
-              
-                
+
             }
         });
-        
-       
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MenuClose;
+    private javax.swing.JButton buttonWczytajTabele;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
     // End of variables declaration//GEN-END:variables
-
 
 }

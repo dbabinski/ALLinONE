@@ -14,11 +14,11 @@ import javax.persistence.Persistence;
  *
  * @author damian
  */
-public class UsersCategoryJPA {
-    private static UsersCategoryJPA instance;
-    public static UsersCategoryJPA getInstance(){
+public class TableModelUsers {
+    private static TableModelUsers instance;
+    public static TableModelUsers getInstance(){
         if (instance == null){
-        instance = new UsersCategoryJPA();
+        instance = new TableModelUsers();
         }
                 
         return instance;
@@ -35,18 +35,18 @@ public class UsersCategoryJPA {
         return entityManager;   
     }
     
-    public UsersCategory getById(final int id){
-        return entityManager.find(UsersCategory.class, id);
+    public Users getById(final int id){
+        return entityManager.find(Users.class, id);
     }
     
-    public List<UsersCategory> findAll() {
-        return entityManager.createNamedQuery("UsersCategory.findAll").getResultList();
+    public List<Users> findAll() {
+        return entityManager.createNamedQuery("Users.findAll").getResultList();
     }
     
-    public void persist(UsersCategory usersCategory){
+    public void persist(Users users){
         try {
             entityManager.getTransaction().begin();
-            entityManager.persist(usersCategory);
+            entityManager.persist(users);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,10 +54,10 @@ public class UsersCategoryJPA {
         }
     }
     
-    public void merge (UsersCategory usersCategory) {
+    public void merge (Users users) {
         try {
             entityManager.getTransaction().begin();
-            entityManager.merge(usersCategory);
+            entityManager.merge(users);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,11 +65,11 @@ public class UsersCategoryJPA {
         }
     }
     
-    public void remove (UsersCategory usersCategory) {
+    public void remove (Users users) {
         try {
             entityManager.getTransaction().begin();
-            usersCategory = entityManager.find(UsersCategory.class, usersCategory.getId());
-            entityManager.remove(usersCategory);
+            users = entityManager.find(Users.class, users.getId());
+            entityManager.remove(users);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
            e.printStackTrace();
@@ -79,8 +79,8 @@ public class UsersCategoryJPA {
     
     public void removeById (final int id) {
         try {
-            UsersCategory usersCategory = getById(id);
-            remove(usersCategory);
+            Users users = getById(id);
+            remove(users);
         } catch (Exception e) {
             e.printStackTrace();
         }

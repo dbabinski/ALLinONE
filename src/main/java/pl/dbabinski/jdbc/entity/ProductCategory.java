@@ -73,7 +73,7 @@ public class ProductCategory implements Serializable {
     public void setProductCategory(String productCategory) {
         this.productCategory = productCategory;
     }
-
+    
     @XmlTransient
     public Collection<Products> getProductsCollection() {
         return productsCollection;

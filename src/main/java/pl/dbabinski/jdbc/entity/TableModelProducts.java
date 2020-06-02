@@ -18,18 +18,22 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author damian
  */
-public class TableModelProductCategory extends AbstractTableModel {
-    
+public class TableModelProducts extends AbstractTableModel{
     
     
     @SuppressWarnings("unchecked")
-    public static DefaultTableModel getDefaultTableModel(List<ProductCategory> list) {
+    public static DefaultTableModel getDefaultTableModel(List<Products> list) {
         Vector titles = new Vector();
         titles.add("Id");
         titles.add("kategorie");
+        titles.add("nazwa");
+        titles.add("imie autora");
+        titles.add("nazwisko autora");
+        titles.add("kraj");
+        titles.add("cena");
         Vector rows = new Vector(list != null ? list.size() : 0);
         if (list != null) {
-            for (ProductCategory l : list) {
+            for (Products l : list) {
                 rows.add(getVector(l));
             }
         }
@@ -37,23 +41,28 @@ public class TableModelProductCategory extends AbstractTableModel {
     }
 
     @SuppressWarnings("unchecked")
-    public static Vector getVector(ProductCategory object) {
+    public static Vector getVector(Products object) {
         Vector vector = new Vector();
         vector.add(object.getId());
-        vector.add(object.getProductCategory());
+        vector.add(object.getIdProductCategory());
+        vector.add(object.getProductName());
+        vector.add(object.getProductAutorName());
+        vector.add(object.getProductAutorLastname());
+        vector.add(object.getProductCountryName());
+        vector.add(object.getProductCost());
         return vector;
     }
     
-    private static TableModelProductCategory instance;
+    private static TableModelProducts instance;
     
-    public static TableModelProductCategory getInstance(){
+    public static TableModelProducts getInstance(){
         if (instance == null){
-        instance = new TableModelProductCategory();
+        instance = new TableModelProducts();
         }
                 
         return instance;
     };
-    
+        
     public EntityManager entityManager;
     
     public EntityManager getEntityManager() {
@@ -65,35 +74,28 @@ public class TableModelProductCategory extends AbstractTableModel {
         return entityManager;   
     }
     
-    public ProductCategory getById(final int id){
-        return entityManager.find(ProductCategory.class, id);
+    public Products getById(final int id){
+        return entityManager.find(Products.class, id);
     }
     
-    public List<ProductCategory> findAll() {
-        return entityManager.createNamedQuery("ProductCategory.findAll").getResultList();
+    public List<Products> findAll() {
+        return entityManager.createNamedQuery("Products.findAll").getResultList();
     }
-            
 
     @Override
     public int getRowCount() {
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public int getColumnCount() {
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-//        ProductCategory r = (ProductCategory) dane.get(rowIndex);
-//        switch(columnIndex){
-//            case 0:
-//                    return r.getId();
-//            case 1: 
-//                    return r.getProductCategory();
-//            case 2:
-//        }
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+
 }
