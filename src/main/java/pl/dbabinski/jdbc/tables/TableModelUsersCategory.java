@@ -3,22 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pl.dbabinski.jdbc.entity;
+package pl.dbabinski.jdbc.tables;
 
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import pl.dbabinski.jdbc.entity.UsersCategory;
 
 /**
  *
  * @author damian
  */
-public class TableModelUsers {
-    private static TableModelUsers instance;
-    public static TableModelUsers getInstance(){
+public class TableModelUsersCategory {
+    private static TableModelUsersCategory instance;
+    public static TableModelUsersCategory getInstance(){
         if (instance == null){
-        instance = new TableModelUsers();
+        instance = new TableModelUsersCategory();
         }
                 
         return instance;
@@ -35,18 +36,18 @@ public class TableModelUsers {
         return entityManager;   
     }
     
-    public Users getById(final int id){
-        return entityManager.find(Users.class, id);
+    public UsersCategory getById(final int id){
+        return entityManager.find(UsersCategory.class, id);
     }
     
-    public List<Users> findAll() {
-        return entityManager.createNamedQuery("Users.findAll").getResultList();
+    public List<UsersCategory> findAll() {
+        return entityManager.createNamedQuery("UsersCategory.findAll").getResultList();
     }
     
-    public void persist(Users users){
+    public void persist(UsersCategory usersCategory){
         try {
             entityManager.getTransaction().begin();
-            entityManager.persist(users);
+            entityManager.persist(usersCategory);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,10 +55,10 @@ public class TableModelUsers {
         }
     }
     
-    public void merge (Users users) {
+    public void merge (UsersCategory usersCategory) {
         try {
             entityManager.getTransaction().begin();
-            entityManager.merge(users);
+            entityManager.merge(usersCategory);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,11 +66,11 @@ public class TableModelUsers {
         }
     }
     
-    public void remove (Users users) {
+    public void remove (UsersCategory usersCategory) {
         try {
             entityManager.getTransaction().begin();
-            users = entityManager.find(Users.class, users.getId());
-            entityManager.remove(users);
+            usersCategory = entityManager.find(UsersCategory.class, usersCategory.getId());
+            entityManager.remove(usersCategory);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
            e.printStackTrace();
@@ -79,8 +80,8 @@ public class TableModelUsers {
     
     public void removeById (final int id) {
         try {
-            Users users = getById(id);
-            remove(users);
+            UsersCategory usersCategory = getById(id);
+            remove(usersCategory);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -5,66 +5,71 @@
  */
 package pl.dbabinski.jdbc;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+import pl.dbabinski.jdbc.tables.TableModelUsers;
+import pl.dbabinski.jdbc.tables.TableModelProducts;
 import pl.dbabinski.jdbc.entity.ConnectionJDBC;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
-import java.util.Vector;
 
 import pl.dbabinski.jdbc.entity.*;
+import pl.dbabinski.jdbc.tables.dao.UsersDAO;
+import pl.dbabinski.jdbc.tables.dao.ProductsDAO;
 
 /**
  *
  * @author XC
  */
 public class MainFrame extends javax.swing.JFrame {
+    
+    public void pokazTabele(){
+        UsersDAO users = new  UsersDAO();
+        ProductsDAO products= new ProductsDAO();
+        
+        try {
+            
+            // tworzy połączenie //
+            users.getEntityManager();
+            users.entityManager.getTransaction().begin();
+            products.getEntityManager();
+            products.entityManager.getTransaction().begin();
+            // 
+            
+            //  listuje zawartość tabel //
+            List<Users> listUserses = users.findAll();
+            List<Products> listProducts = products.findAll();         
+            //
 
+            //  ustawia model //
+            jTableProducts.setModel(TableModelProducts.getDefaultTableModel(listProducts));
+            jTableUsers.setModel(TableModelUsers.getDefaultTableModel(listUserses));
+            //
+            
+            //  sortowanie tabel //
+            jTableProducts.setAutoCreateRowSorter(true);
+            jTableUsers.setAutoCreateRowSorter(true);
+            //
+            
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } finally {
+            //tmProductCategory.entityManager.close();
+            products.entityManager.close();
+            users.entityManager.close();
+        }
+
+    }
+    
+    
+    
     /**
      * Creates new form Frame
      */
     public MainFrame() {
         initComponents();
-
-        TableModelProductCategory tmProductCategory = new TableModelProductCategory();
-
-        try {
-
-            tmProductCategory.getEntityManager();
-            tmProductCategory.entityManager.getTransaction().begin();
-
-            List<ProductCategory> list = tmProductCategory.findAll();
-            jTable3.setModel(TableModelProductCategory.getDefaultTableModel(list));
-
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        } finally {
-
-            tmProductCategory.entityManager.close();
-
-        }
         
-        TableModelProducts tmProducts= new TableModelProducts();
-
-        try {
-
-            tmProducts.getEntityManager();
-            tmProducts.entityManager.getTransaction().begin();
-
-            List<Products> list = tmProducts.findAll();
-            jTable4.setModel(TableModelProducts.getDefaultTableModel(list));
-
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        } finally {
-
-            tmProducts.entityManager.close();
-
-        }
-
+        pokazTabele();
     }
 
     /**
@@ -76,13 +81,17 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane2 = new javax.swing.JScrollPane();
+        buttonAkceptuj = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
-        buttonWczytajTabele = new javax.swing.JButton();
+        JPanelTab1 = new javax.swing.JPanel();
+        jScrollPaneUzytkownicy = new javax.swing.JScrollPane();
+        jTableUsers = new javax.swing.JTable();
+        jPanelTab2 = new javax.swing.JPanel();
+        jScrollPaneProdukty = new javax.swing.JScrollPane();
+        jTableProducts = new javax.swing.JTable();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         MenuClose = new javax.swing.JMenuItem();
@@ -91,44 +100,103 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane3.setViewportView(jTable3);
-
-        jTabbedPane1.addTab("tab1", jScrollPane3);
-
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane4.setViewportView(jTable4);
-
-        jTabbedPane1.addTab("tab2", jScrollPane4);
-
-        jScrollPane2.setViewportView(jTabbedPane1);
-
-        buttonWczytajTabele.setText("Wczytaj tabele");
-        buttonWczytajTabele.addActionListener(new java.awt.event.ActionListener() {
+        buttonAkceptuj.setText("Akceptuj");
+        buttonAkceptuj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonWczytajTabeleActionPerformed(evt);
+                buttonAkceptujActionPerformed(evt);
             }
         });
+
+        jTableUsers.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPaneUzytkownicy.setViewportView(jTableUsers);
+
+        javax.swing.GroupLayout JPanelTab1Layout = new javax.swing.GroupLayout(JPanelTab1);
+        JPanelTab1.setLayout(JPanelTab1Layout);
+        JPanelTab1Layout.setHorizontalGroup(
+            JPanelTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1112, Short.MAX_VALUE)
+            .addGroup(JPanelTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPanelTab1Layout.createSequentialGroup()
+                    .addContainerGap(18, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneUzytkownicy, javax.swing.GroupLayout.PREFERRED_SIZE, 1076, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(18, Short.MAX_VALUE)))
+        );
+        JPanelTab1Layout.setVerticalGroup(
+            JPanelTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 437, Short.MAX_VALUE)
+            .addGroup(JPanelTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPanelTab1Layout.createSequentialGroup()
+                    .addContainerGap(8, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneUzytkownicy, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(149, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane1.addTab("Użytkownicy", JPanelTab1);
+
+        jTableProducts.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPaneProdukty.setViewportView(jTableProducts);
+
+        jTextField1.setText("jTextField1");
+
+        jButton1.setText("jButton1");
+
+        javax.swing.GroupLayout jPanelTab2Layout = new javax.swing.GroupLayout(jPanelTab2);
+        jPanelTab2.setLayout(jPanelTab2Layout);
+        jPanelTab2Layout.setHorizontalGroup(
+            jPanelTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTab2Layout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(892, Short.MAX_VALUE))
+            .addGroup(jPanelTab2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jSeparator1)
+                .addContainerGap())
+            .addGroup(jPanelTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTab2Layout.createSequentialGroup()
+                    .addContainerGap(20, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneProdukty, javax.swing.GroupLayout.PREFERRED_SIZE, 1070, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(22, Short.MAX_VALUE)))
+        );
+        jPanelTab2Layout.setVerticalGroup(
+            jPanelTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTab2Layout.createSequentialGroup()
+                .addContainerGap(327, Short.MAX_VALUE)
+                .addGroup(jPanelTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(76, 76, 76)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanelTab2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTab2Layout.createSequentialGroup()
+                    .addContainerGap(11, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneProdukty, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(146, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane1.addTab("Produkty", jPanelTab2);
 
         jMenu1.setText("Plik");
 
@@ -155,21 +223,19 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane1)
             .addGroup(layout.createSequentialGroup()
-                .addGap(225, 225, 225)
-                .addComponent(buttonWczytajTabele)
-                .addGap(100, 100, 100)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addGap(515, 515, 515)
+                .addComponent(buttonAkceptuj)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonWczytajTabele)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(buttonAkceptuj)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
@@ -186,9 +252,9 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MenuCloseActionPerformed
 
-    private void buttonWczytajTabeleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonWczytajTabeleActionPerformed
-
-    }//GEN-LAST:event_buttonWczytajTabeleActionPerformed
+    private void buttonAkceptujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAkceptujActionPerformed
+        
+    }//GEN-LAST:event_buttonAkceptujActionPerformed
 
     /**
      * @param args the command line arguments
@@ -229,20 +295,24 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel JPanelTab1;
     private javax.swing.JMenuItem MenuClose;
-    private javax.swing.JButton buttonWczytajTabele;
+    private javax.swing.JButton buttonAkceptuj;
+    private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JPanel jPanelTab2;
+    private javax.swing.JScrollPane jScrollPaneProdukty;
+    private javax.swing.JScrollPane jScrollPaneUzytkownicy;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
+    private javax.swing.JTable jTableProducts;
+    private javax.swing.JTable jTableUsers;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
 }
