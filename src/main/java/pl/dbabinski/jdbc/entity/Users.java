@@ -145,4 +145,6 @@ public class Users implements Serializable {
         return "pl.dbabinski.jdbc.entity.Users[ id=" + id + " ]";
     }
     
+   
+    
 }

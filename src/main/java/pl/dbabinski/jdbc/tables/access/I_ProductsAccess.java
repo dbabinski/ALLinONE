@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pl.dbabinski.jdbc.tables.dao;
+package pl.dbabinski.jdbc.tables.access;
 
-import java.sql.SQLException;
+import pl.dbabinski.jdbc.entity.Products;
 
 /**
  *
  * @author damian
  */
-public interface DAO <T, ID> {
-    boolean save(T o) throws SQLException;
+public interface I_ProductsAccess extends Access<Products, String>{
     
 }

@@ -57,7 +57,11 @@ public class UsersCategory implements Serializable {
         this.id = id;
         this.userCategory = userCategory;
     }
-
+    
+    public UsersCategory(String userCategory) {
+        this.userCategory = userCategory;
+    }
+           
     public Integer getId() {
         return id;
     }

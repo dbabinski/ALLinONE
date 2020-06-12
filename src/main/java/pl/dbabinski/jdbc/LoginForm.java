@@ -8,8 +8,6 @@ package pl.dbabinski.jdbc;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import pl.dbabinski.jdbc.entity.ConnectionJDBC;
-import pl.dbabinski.jdbc.entity.*;
 
 /**
  *
@@ -18,7 +16,6 @@ import pl.dbabinski.jdbc.entity.*;
 public class LoginForm extends javax.swing.JFrame {
     private String user;
     private String pass;
-    private String url;
     
     /**
      * Creates new form LoginForm
@@ -30,26 +27,15 @@ public class LoginForm extends javax.swing.JFrame {
         this.user = jTextField1.getText();
         this.pass = String.valueOf(jPasswordField1.getPassword());
         
-        ConnectionJDBC connectionJDBC = new ConnectionJDBC(user, pass);
-        this.url = connectionJDBC.url;
+        Login login = new Login(this.user, this.pass);
         
-            try {   
-            
-                if ((!"dbabinski".equals(user)) || (!"zaq1@WSX".equals(pass))){
-                    System.out.println("Wrong pass");
-                }else{
-                    connectionJDBC.ConnectionPostgres(user, pass, url);
-                    MainFrame windows = new MainFrame();
-                    windows.setVisible(true);
-                    this.setVisible(false);
-                }
-           
-            } catch (Exception e) {
-              e.printStackTrace();
-              System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            } finally {
-                connectionJDBC.CloseConnectionPostgres();
-            }
+        if (login.sprawdzLogowanie() == true ){
+            MainFrame windows = new MainFrame();
+            windows.setVisible(true);
+            this.setVisible(false);
+        }
+        
+        
     }
     
     

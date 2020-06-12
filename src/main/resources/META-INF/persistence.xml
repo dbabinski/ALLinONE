@@ -11,7 +11,7 @@
     <class>pl.dbabinski.jdbc.jpa.ProductCategory</class>
     <class>pl.dbabinski.jdbc.jpa.Users</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5453/bazaDB"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/bazaDB"/>
       <property name="javax.persistence.jdbc.user" value="dbabinski"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
       <property name="javax.persistence.jdbc.password" value="zaq1@WSX"/>

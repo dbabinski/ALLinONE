@@ -6,84 +6,74 @@
 package pl.dbabinski.jdbc.tables;
 
 import java.util.List;
+import java.util.Vector;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 import pl.dbabinski.jdbc.entity.UsersCategory;
 
 /**
  *
  * @author damian
  */
-public class TableModelUsersCategory {
-    private static TableModelUsersCategory instance;
-    public static TableModelUsersCategory getInstance(){
-        if (instance == null){
-        instance = new TableModelUsersCategory();
-        }
-                
-        return instance;
-    };
+public class TableModelUsersCategory extends AbstractTableModel{
+//    private static TableModelUsersCategory instance;
+//    public static TableModelUsersCategory getInstance(){
+//        if (instance == null){
+//        instance = new TableModelUsersCategory();
+//        }
+//                
+//        return instance;
+//    };
+//    
+//    public EntityManager entityManager;
+//    
+//    public EntityManager getEntityManager() {
+//        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pl.dbabinski.persistance-office");
+//        if(entityManager == null) {
+//            entityManager = factory.createEntityManager();
+//        }
+//        
+//        return entityManager;   
+//    }
     
-    public EntityManager entityManager;
     
-    public EntityManager getEntityManager() {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pl.dbabinski.persistance-office");
-        if(entityManager == null) {
-            entityManager = factory.createEntityManager();
+     @SuppressWarnings("unchecked")
+    public static DefaultTableModel getDefaultTableModel(List<UsersCategory> list) {
+        Vector titles = new Vector();
+        titles.add("Id");
+        titles.add("Kategorie");
+        Vector rows = new Vector(list != null ? list.size() : 0);
+        if (list != null) {
+            for (UsersCategory l : list) {
+                rows.add(getVector(l));
+            }
         }
-        
-        return entityManager;   
+        return new DefaultTableModel(rows, titles);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Vector getVector(UsersCategory object) {
+        Vector vector = new Vector();
+        vector.add(object.getId());
+        vector.add(object.getUserCategory());
+        return vector;
     }
     
-    public UsersCategory getById(final int id){
-        return entityManager.find(UsersCategory.class, id);
+    @Override
+    public int getRowCount() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public List<UsersCategory> findAll() {
-        return entityManager.createNamedQuery("UsersCategory.findAll").getResultList();
+
+    @Override
+    public int getColumnCount() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public void persist(UsersCategory usersCategory){
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(usersCategory);
-            entityManager.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            entityManager.getTransaction().rollback();
-        }
-    }
-    
-    public void merge (UsersCategory usersCategory) {
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.merge(usersCategory);
-            entityManager.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            entityManager.getTransaction().rollback();
-        }
-    }
-    
-    public void remove (UsersCategory usersCategory) {
-        try {
-            entityManager.getTransaction().begin();
-            usersCategory = entityManager.find(UsersCategory.class, usersCategory.getId());
-            entityManager.remove(usersCategory);
-            entityManager.getTransaction().commit();
-        } catch (Exception e) {
-           e.printStackTrace();
-           entityManager.getTransaction().rollback();
-        }
-    }
-    
-    public void removeById (final int id) {
-        try {
-            UsersCategory usersCategory = getById(id);
-            remove(usersCategory);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

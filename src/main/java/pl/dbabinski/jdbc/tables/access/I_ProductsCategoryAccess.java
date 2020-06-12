@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pl.dbabinski.jdbc.tables.dao;
+package pl.dbabinski.jdbc.tables.access;
 
-import pl.dbabinski.jdbc.entity.Products;
+import pl.dbabinski.jdbc.entity.ProductCategory;
 
 /**
  *
- * @author damian
+ * @author XC
  */
-public interface I_ProductsDAO extends DAO<Products, String>{
+public interface I_ProductsCategoryAccess extends Access<ProductCategory, String>{
     
 }

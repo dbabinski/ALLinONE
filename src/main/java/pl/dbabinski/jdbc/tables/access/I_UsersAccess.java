@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pl.dbabinski.jdbc.tables.dao;
+package pl.dbabinski.jdbc.tables.access;
 
 import pl.dbabinski.jdbc.entity.Users;
 
@@ -11,6 +11,6 @@ import pl.dbabinski.jdbc.entity.Users;
  *
  * @author damian
  */
-public interface I_UsersDAO extends DAO <Users, String>{
+public interface I_UsersAccess extends Access <Users, String>{
     
 }
